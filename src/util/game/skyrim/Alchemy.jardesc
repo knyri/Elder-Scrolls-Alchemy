@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="WINDOWS-1252" standalone="no"?>
 <jardesc>
-    <jar path="D:/Apps/OblivionAlchemy.jar"/>
+    <jar path="D:/Apps/SkyrimAlchemy.jar"/>
     <options buildIfNeeded="true" compress="true" descriptionLocation="/Elder Scrolls Alchemy/src/util/game/skyrim/Alchemy.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="true" overwrite="false" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
     <storedRefactorings deprecationInfo="true" structuralOnly="false"/>
     <selectedProjects/>
