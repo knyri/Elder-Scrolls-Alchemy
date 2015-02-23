@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Main-Class: util.game.oblivion.Alchemy
+Class-Path: simplelib.jar
+
