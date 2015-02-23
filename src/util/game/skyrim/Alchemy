@@ -1,4 +1,4 @@
 Manifest-Version: 1.0
-Main-Class: util.game.oblivion.Alchemy
+Main-Class: util.game.skyrim.Alchemy
 Class-Path: simplelib.jar
 
