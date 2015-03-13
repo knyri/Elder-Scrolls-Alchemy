@@ -56,7 +56,7 @@ public class Alchemy extends JPanel implements ItemListener, ChangeListener {
 	 * @param args
 	 */
 	public static void main(final String[] args) {
-		final JFrame frame = SwingFactory.makeDefaultJFrame("Oblivion Alchemy");
+		final JFrame frame = SwingFactory.makeDefaultJFrame("Morrowind Alchemy");
 		final JComponent con = new Alchemy();
 		con.setOpaque(true);
 		frame.setContentPane(con);
