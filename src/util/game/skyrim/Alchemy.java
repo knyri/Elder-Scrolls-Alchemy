@@ -13,8 +13,10 @@ import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
+import javax.swing.JSplitPane;
+import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import simple.gui.factory.SJPanel;
 import simple.gui.factory.SwingFactory;
@@ -29,7 +31,7 @@ import simple.gui.factory.TextFactory;
  * @author Super
  *
  */
-public class Alchemy extends JPanel implements ItemListener, ChangeListener {
+public class Alchemy extends JPanel {
 	/**
 	 *
 	 */
@@ -39,23 +41,60 @@ public class Alchemy extends JPanel implements ItemListener, ChangeListener {
 	final JComboBox<String> effectList2 = new JComboBox<String>(AlchemyConstants.getEffectList());
 	final JComboBox<String> effectList3 = new JComboBox<String>(AlchemyConstants.getEffectList());
 	final JComboBox<String> effectList4 = new JComboBox<String>(AlchemyConstants.getEffectList());
-	final AlchListModel listmodel= new AlchListModel();
-	final JList<Ingredient> itemList = new JList<Ingredient>(listmodel);
+	final AlchListModel
+		mainList= new AlchListModel(),
+		combineableList= new AlchListModel();
+	final JList<Ingredient>
+		mainListDisplay = new JList<Ingredient>(mainList),
+		combineableListDisplay= new JList<Ingredient>(combineableList);
 	public Alchemy() {
 		super(new BorderLayout());
-		itemList.setFont(TextFactory.getMonoFont());
+		mainListDisplay.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		combineableListDisplay.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		mainListDisplay.setFont(TextFactory.getMonoFont());
+		combineableListDisplay.setFont(TextFactory.getMonoFont());
+		mainListDisplay.addListSelectionListener(new ListSelectionListener(){
+			Ingredient lastItem= null;
+			@Override
+			public void valueChanged(ListSelectionEvent e){
+				/*
+				 * This event works strangely.
+				 * The indexes are useless in single selection mode
+				 */
+				Ingredient item= mainListDisplay.getSelectedValue();
+				// because it fires on mouse down and mouse up
+				if(item != lastItem){
+//					combineableList.filterList(null);
+					lastItem= item;
+					combineableList.filterList(item);
+				}
+			}
+		});
+
 		JPanel top = SJPanel.makeBoxLayoutPanelX();
-		effectList1.addItemListener(this);
-		effectList2.addItemListener(this);
-		effectList3.addItemListener(this);
-		effectList4.addItemListener(this);
+		effectList1.addItemListener(effectsListener);
+		effectList2.addItemListener(effectsListener);
+		effectList3.addItemListener(effectsListener);
+		effectList4.addItemListener(effectsListener);
 		top.add(effectList1);
 		top.add(effectList2);
 		top.add(effectList3);
 		top.add(effectList4);
 		add(top, BorderLayout.NORTH);
-		add(new JScrollPane(itemList));
+		add( new JSplitPane(JSplitPane.VERTICAL_SPLIT,
+				new JScrollPane(mainListDisplay),
+				new JScrollPane(combineableListDisplay)
+			)
+		);
 	}
+	private final ItemListener effectsListener= new ItemListener(){
+		@Override
+		public void itemStateChanged(ItemEvent ie){
+			if (ie.getStateChange() == ItemEvent.SELECTED) {
+				mainList.filterList(effectList1.getSelectedIndex(),effectList2.getSelectedIndex(),effectList3.getSelectedIndex(),effectList4.getSelectedIndex());
+			}
+		}
+	};
 	/**
 	 * @param args
 	 */
@@ -68,22 +107,6 @@ public class Alchemy extends JPanel implements ItemListener, ChangeListener {
 		//frame.setSize(200, 300);
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
-	}
-	/* (non-Javadoc)
-	 * @see java.awt.event.ItemListener#itemStateChanged(java.awt.event.ItemEvent)
-	 */
-	@Override
-	public void itemStateChanged(ItemEvent ie) {
-		if (ie.getStateChange() == ItemEvent.SELECTED) {
-			listmodel.filterList(effectList1.getSelectedIndex(),effectList2.getSelectedIndex(),effectList3.getSelectedIndex(),effectList4.getSelectedIndex());
-		}
-	}
-	/* (non-Javadoc)
-	 * @see javax.swing.event.ChangeListener#stateChanged(javax.swing.event.ChangeEvent)
-	 */
-	@Override
-	public void stateChanged(ChangeEvent ce) {
-		listmodel.filterList(effectList1.getSelectedIndex(),effectList2.getSelectedIndex(),effectList3.getSelectedIndex(),effectList4.getSelectedIndex());
 	}
 
 }

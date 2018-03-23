@@ -35,8 +35,9 @@ public class AlchListModel extends AbstractListModel<Ingredient>{
 	}
 	public synchronized void filterList(final int effect1, final int effect2, final int effect3, final int effect4) {
 		//return if nothing has changed
-		if(effect1==oldEffect1 && effect2==oldEffect2 && effect3==oldEffect3 && effect4==oldEffect4)
+		if(effect1==oldEffect1 && effect2==oldEffect2 && effect3==oldEffect3 && effect4==oldEffect4){
 			return;
+		}
 		boolean forceFilter= false;
 		if (oldEffect1 != 0 && effect1 != oldEffect1 ||
 				oldEffect2 != 0 && effect2 != oldEffect2 ||
@@ -49,19 +50,36 @@ public class AlchListModel extends AbstractListModel<Ingredient>{
 			forceFilter= true;
 		}
 
-		if(effect1 != 0 && (forceFilter || effect1 != oldEffect1))
+		if(effect1 != 0 && (forceFilter || effect1 != oldEffect1)){
 			removeFilter(effect1);
-		if(effect2 != 0 && (forceFilter || effect2 != oldEffect2))
+		}
+		if(effect2 != 0 && (forceFilter || effect2 != oldEffect2)){
 			removeFilter(effect2);
-		if(effect3 != 0 && (forceFilter || effect3 != oldEffect3))
+		}
+		if(effect3 != 0 && (forceFilter || effect3 != oldEffect3)){
 			removeFilter(effect3);
-		if(effect4 != 0 && (forceFilter || effect4 != oldEffect4))
+		}
+		if(effect4 != 0 && (forceFilter || effect4 != oldEffect4)){
 			removeFilter(effect4);
+		}
 
 		oldEffect1 = effect1;
 		oldEffect2 = effect2;
 		oldEffect3 = effect3;
 		oldEffect4 = effect4;
+		fireContentsChanged(this,0,items.size());
+	}
+	public synchronized void filterList(Ingredient combineableWith){
+		items.clear();
+		if(combineableWith == null){
+			fireContentsChanged(this,0,items.size());
+			return;
+		}
+		for(Ingredient item: ingredients){
+			if(item.combineableWith(combineableWith)){
+				items.add(item);
+			}
+		}
 		fireContentsChanged(this,0,items.size());
 	}
 	/**
@@ -73,7 +91,7 @@ public class AlchListModel extends AbstractListModel<Ingredient>{
 		Ingredient item;
 		for (int i=0; i<items.size(); i++) {
 			item=items.get(i);
-			if (! (item.getEffect1() == effect || item.getEffect2() == effect || item.getEffect3() == effect || item.getEffect4() == effect) ) {
+			if (! item.hasEffect(effect) ) {
 				items.remove(i);
 				i--;
 			}

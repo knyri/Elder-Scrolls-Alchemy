@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package util.game.skyrim;
 
@@ -22,6 +22,12 @@ public class Ingredient {
 		Effect3 = effect3;
 		Effect4 = effect4;
 		Display = do_str.padRight(30, ' ', name) + "[" + do_str.padRight(25, ' ', AlchemyConstants.getEffectString(effect1)) + "][" + do_str.padRight(25, ' ', AlchemyConstants.getEffectString(effect2)) + "][" + do_str.padRight(25, ' ', AlchemyConstants.getEffectString(effect3)) + "][" + do_str.padRight(25, ' ', AlchemyConstants.getEffectString(effect4) + "]");
+	}
+	public boolean hasEffect(int effect){
+		return Effect1 == effect || Effect2 == effect || Effect3 == effect || Effect4 == effect;
+	}
+	public boolean combineableWith(Ingredient ingredient){
+		return (hasEffect(ingredient.Effect1) || hasEffect(ingredient.Effect2) || hasEffect(ingredient.Effect3) || hasEffect(ingredient.Effect4));
 	}
 	/**
 	 * @return the name
