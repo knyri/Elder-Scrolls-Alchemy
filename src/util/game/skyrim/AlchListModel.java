@@ -75,9 +75,12 @@ public class AlchListModel extends AbstractListModel<Ingredient>{
 			fireContentsChanged(this,0,items.size());
 			return;
 		}
+		Ingredient toAdd;
 		for(Ingredient item: ingredients){
 			if(item.combineableWith(combineableWith)){
-				items.add(item);
+				toAdd= new Ingredient(item);
+				toAdd.highlightCommon(combineableWith);
+				items.add(toAdd);
 			}
 		}
 		fireContentsChanged(this,0,items.size());

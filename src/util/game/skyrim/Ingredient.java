@@ -10,11 +10,16 @@ import simple.util.do_str;
  * @author Kenneth Pierce
  */
 public class Ingredient {
-	protected final String Name, Display;
+	private static final String emptyField= "-------------------------";
+	protected final String Name;
+	protected String Display;
 	protected final int Effect1,
 		Effect2,
 		Effect3,
 		Effect4;
+	public Ingredient(Ingredient clone){
+		this(clone.Name, clone.Effect1, clone.Effect2, clone.Effect3, clone.Effect4);
+	}
 	public Ingredient(String name, int effect1, int effect2, int effect3, int effect4) {
 		Name = name;
 		Effect1 = effect1;
@@ -28,6 +33,13 @@ public class Ingredient {
 	}
 	public boolean combineableWith(Ingredient ingredient){
 		return (hasEffect(ingredient.Effect1) || hasEffect(ingredient.Effect2) || hasEffect(ingredient.Effect3) || hasEffect(ingredient.Effect4));
+	}
+	public void highlightCommon(Ingredient ingredient){
+		Display= do_str.padRight(30, ' ', Name) + "[" +
+				(ingredient.hasEffect(Effect1) ? do_str.padRight(25, ' ', AlchemyConstants.getEffectString(Effect1)) : emptyField) + "][" +
+				(ingredient.hasEffect(Effect2) ? do_str.padRight(25, ' ', AlchemyConstants.getEffectString(Effect2)) : emptyField) + "][" +
+				(ingredient.hasEffect(Effect3) ? do_str.padRight(25, ' ', AlchemyConstants.getEffectString(Effect3)) : emptyField) + "][" +
+				(ingredient.hasEffect(Effect4) ? do_str.padRight(25, ' ', AlchemyConstants.getEffectString(Effect4)) : emptyField) + "]";
 	}
 	/**
 	 * @return the name
