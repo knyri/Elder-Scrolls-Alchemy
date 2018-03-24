@@ -10,7 +10,7 @@ import simple.util.do_str;
  * @author Kenneth Pierce
  */
 public class Ingredient {
-	private static final String emptyField= "-------------------------";
+	private static final String emptyField= "- - - - - - - - - - - - -";
 	protected final String Name;
 	protected String Display;
 	protected final int Effect1,
@@ -36,10 +36,10 @@ public class Ingredient {
 	}
 	public void highlightCommon(Ingredient ingredient){
 		Display= do_str.padRight(30, ' ', Name) + "[" +
-				(ingredient.hasEffect(Effect1) ? do_str.padRight(25, ' ', AlchemyConstants.getEffectString(Effect1)) : emptyField) + "][" +
-				(ingredient.hasEffect(Effect2) ? do_str.padRight(25, ' ', AlchemyConstants.getEffectString(Effect2)) : emptyField) + "][" +
-				(ingredient.hasEffect(Effect3) ? do_str.padRight(25, ' ', AlchemyConstants.getEffectString(Effect3)) : emptyField) + "][" +
-				(ingredient.hasEffect(Effect4) ? do_str.padRight(25, ' ', AlchemyConstants.getEffectString(Effect4)) : emptyField) + "]";
+				(hasEffect(ingredient.Effect1) ? do_str.padRight(25, ' ', AlchemyConstants.getEffectString(ingredient.Effect1)) : emptyField) + "][" +
+				(hasEffect(ingredient.Effect2) ? do_str.padRight(25, ' ', AlchemyConstants.getEffectString(ingredient.Effect2)) : emptyField) + "][" +
+				(hasEffect(ingredient.Effect3) ? do_str.padRight(25, ' ', AlchemyConstants.getEffectString(ingredient.Effect3)) : emptyField) + "][" +
+				(hasEffect(ingredient.Effect4) ? do_str.padRight(25, ' ', AlchemyConstants.getEffectString(ingredient.Effect4)) : emptyField) + "]";
 	}
 	/**
 	 * @return the name
